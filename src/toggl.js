@@ -1,5 +1,8 @@
 const Toggl = {
-
+  /**
+   * ワークスペースを取得する
+   * @return {Array[Object]} { id, name } の配列
+   */
   getWorkspaces() {
     const url = 'https://www.toggl.com/api/v8/workspaces';
     const response = this._callTogglApi(url);
@@ -10,6 +13,14 @@ const Toggl = {
     return workspaces;
   },
 
+  /**
+   * レポート（詳細）を全部取得する。
+   * 複数ページある場合、すべてのページを取得する
+   * @param  {Integer} workplaceId ワークプレイスID
+   * @param  {String} since       取得開始日（YYYY-MM-DD）
+   * @param  {String} until       取得最終日（YYYY-MM-DD）
+   * @return {Array[Obejct]}      Togglのレポートオブジェクト
+   */
   fetchReport(workplaceId, since, until) {
     let page = 1;
     let hasNext = true;
@@ -25,6 +36,14 @@ const Toggl = {
     return report;
   },
 
+  /**
+   * レポート（詳細）を取得する
+   * @param  {Integer} workplaceId ワークプレイスID
+   * @param  {String} since       取得開始日（YYYY-MM-DD）
+   * @param  {String} until       取得最終日（YYYY-MM-DD）
+   * @param  {Number} [page=1]    取得ページ番号
+   * @return {Array[Obejct]}      Togglのレポートオブジェクト
+   */
   getReport(workplaceId, since, until, page = 1) {
     const url = Utilities.formatString(
       'https://toggl.com/reports/api/v2/details?workspace_id=%s&since=%s&until=%s&page=%s&user_agent=toggl2rm',
@@ -41,6 +60,18 @@ const Toggl = {
     return { reportJson, hasNext };
   },
 
+  /**
+   * レポート（詳細）を扱いやすくパースする。
+   * レポートオブジェクトから次の値の配列に変換する
+   *   - report.id : TooglのタスクID
+   *   - ticketNo :  Redmineのチケット 番号
+   *   - startDate : 作業の日付
+   *   - duration : 作業時間（Hour）
+   *   - report.tags.join('、'): 作業のメモ（Togglのタグ）
+   *   - report.description: Togglのタスク名
+   * @param  {Array[Object]} reportJson Togglのレポートオブジェクトの配列
+   * @return {Array[][]}     必要な値の配列のリスト
+   */
   parseReportData(reportJson) {
     const ticketNoIndex = 1;
     const parsedReport = reportJson.map((report) => {
@@ -58,9 +89,13 @@ const Toggl = {
     return parsedReport;
   },
 
+  /**
+   * TogglのAPIを実行する
+   * @param  {[type]} url APIのエンドポイントURL＋クエリパラメータ
+   * @return {[type]}     APIのレスポンス
+   */
   _callTogglApi(url) {
     const togglKey = Props.get('TOGGL_API_TOKEN');
-    Logger.log(togglKey);
     const authToken = Utilities.base64Encode(`${togglKey}:api_token`);
     const headers = { Authorization: `Basic ${authToken}` };
     const response = UrlFetchApp.fetch(url, { headers });

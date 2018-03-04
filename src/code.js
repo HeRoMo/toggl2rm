@@ -1,5 +1,9 @@
 const APP_NAME = 'Toggl > Redmine';
 
+/**
+ * スプレッドシートのオープンイベント処理
+ * メニューを追加する。
+ */
 function onOpen() {
   const ui = SpreadsheetApp.getUi();
   const addon = ui.createAddonMenu();
@@ -8,6 +12,10 @@ function onOpen() {
   addon.addToUi();
 }
 
+/**
+ * アドオンインストールイベントの処理
+ * メニューを追加する。
+ */
 function onInstall() {
   onOpen();
 }
@@ -36,14 +44,22 @@ function showSettingDialog() {
   Logger.log(result);
 }
 
+/**
+ * 設定が有効かどうかを判定する
+ * @return {Boolean} すべての設定に値がある場合 true。それ以外はfalse
+ */
 function isValidSettings() {
   return Props.isValid();
 }
 
-//--------------------------
-
 /**
- *
+ * データをスプレッドシートに書き込む
+ * @param  {Array[][]} parsedReport [taskId,
+ *                                   ticketNo,
+ *                                   startDate,
+ *                                   duration(H),
+ *                                   memo,
+ *                                   taskDescription]の配列
  */
 function writeToSheet(parsedReport) {
   Logger.log(parsedReport);
@@ -56,6 +72,12 @@ function writeToSheet(parsedReport) {
   range.setValues(parsedReport);
 }
 
+/**
+ * Togglからレポートを取得し、スプレッドシートに書き込む
+ * @param  {Integer} workplaceId ワークプレイスID
+ * @param  {Integer} year        レポートを取得する年
+ * @param  {Integer} month       レポートを取得する月
+ */
 function extractFromToggl(workplaceId, year, month) {
   const period = Utils.getPeriod(year, month);
   Logger.log(period);
@@ -67,9 +89,11 @@ function extractFromToggl(workplaceId, year, month) {
   writeToSheet(parsedReport);
 }
 
+/**
+ * スプレッドシートの時間記録をRedmineに書き出す
+ */
 function addTimeEntryFromSheet() {
   const sheet = SpreadsheetApp.getActiveSheet();
-
   const activeRange = sheet.getDataRange();
   const data = activeRange.getValues();
   data.forEach((d) => {
@@ -86,6 +110,10 @@ function addTimeEntryFromSheet() {
   SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Redmine', 5);
 }
 
+/**
+ * エラーメッセージを表示する
+ * @param  {String} message エラーメッセージ
+ */
 function showError(message) {
   const ui = SpreadsheetApp.getUi();
   ui.alert('ERROR', message, ui.ButtonSet.OK);
@@ -96,7 +124,6 @@ global.onInstall = onInstall;
 global.showSidebar = showSidebar;
 global.showSettingDialog = showSettingDialog;
 global.isValidSettings = isValidSettings;
-global.writeToSheet = writeToSheet;
 global.extractFromToggl = extractFromToggl;
 global.addTimeEntryFromSheet = addTimeEntryFromSheet;
 global.showError = showError;

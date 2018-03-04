@@ -1,4 +1,8 @@
 const Utils = {
+  /**
+   * 年月の配列を取得する。実行時の月を含む6ヶ月分
+   * @return {Array[String]} YYYY-MMの配列（降順）
+   */
   getYearMonths() {
     const now = new Date();
     const yearMonths = [Utilities.formatDate(now, 'JST', 'yyyy-MM')];
@@ -10,6 +14,12 @@ const Utils = {
     return yearMonths;
   },
 
+  /**
+   * 指定した年月の初日、最終日を取得する
+   * @param  {Integer} year  西暦
+   * @param  {Integer} month 月
+   * @return {Object}       { since, until }
+   */
   getPeriod(year, month) {
     const start = new Date(year, (month - 1), 1);
     const end = new Date(year, month, 0);

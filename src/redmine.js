@@ -1,11 +1,17 @@
 const Redmine = {
-
-  addTimeEntry(ticketId, date, hours, comments) {
+  /**
+   * Redmineに時間を記録する
+   * @param {Integer} ticketNo チケットNo
+   * @param {String}  date     日付
+   * @param {Integer} hours    作業時間
+   * @param {String} comments  作業メモ
+   */
+  addTimeEntry(ticketNo, date, hours, comments) {
     const rmServer = Props.get('RM_SERVER');
     const apiKey = Props.get('RM_API_KEY');
     const url = `${rmServer}/time_entries.xml?key=${apiKey}`;
     const timeEntry = {
-      issue_id: ticketId,
+      issue_id: ticketNo,
       spent_on: date,
       hours,
       comments,
