@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode development",
+    "cleanup": "rm -f dest/*",
     "deploy": "gapps upload",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
