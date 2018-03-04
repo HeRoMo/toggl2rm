@@ -82,7 +82,7 @@ function extractFromToggl(workplaceId, year, month) {
   const period = Utils.getPeriod(year, month);
   Logger.log(period);
 
-  const reportJson = Toggl.fetchReport(workplaceId, period.since, period.until);
+  const reportJson = Toggl.fetchAllReport(workplaceId, period.since, period.until);
   SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 5);
   let parsedReport = Toggl.parseReportData(reportJson);
   parsedReport = parsedReport.reverse();

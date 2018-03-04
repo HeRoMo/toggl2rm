@@ -21,12 +21,12 @@ const Toggl = {
    * @param  {String} until       取得最終日（YYYY-MM-DD）
    * @return {Array[Obejct]}      Togglのレポートオブジェクト
    */
-  fetchReport(workplaceId, since, until) {
+  fetchAllReport(workplaceId, since, until) {
     let page = 1;
     let hasNext = true;
     let report = [];
     while (hasNext) {
-      const result = this.getReport(workplaceId, since, until, page);
+      const result = this.fetchReport(workplaceId, since, until, page);
       const reportJson = result.reportJson;
       hasNext = result.hasNext;
       Utilities.sleep(1500); // APIのrate limitを避けるため
@@ -44,7 +44,7 @@ const Toggl = {
    * @param  {Number} [page=1]    取得ページ番号
    * @return {Array[Obejct]}      Togglのレポートオブジェクト
    */
-  getReport(workplaceId, since, until, page = 1) {
+  fetchReport(workplaceId, since, until, page = 1) {
     const url = Utilities.formatString(
       'https://toggl.com/reports/api/v2/details?workspace_id=%s&since=%s&until=%s&page=%s&user_agent=toggl2rm',
       workplaceId,
