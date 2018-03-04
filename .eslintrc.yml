@@ -1,0 +1,15 @@
+extends: airbnb-base
+
+plugins:
+  - googleappsscript
+
+env:
+  googleappsscript/googleappsscript: true
+
+globals:
+  Props: false
+  Redmine: false
+  Toggl: false
+
+rules:
+  no-underscore-dangle: [error, { allowAfterThis: true }]
