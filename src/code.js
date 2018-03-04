@@ -62,12 +62,9 @@ function isValidSettings() {
  *                                   taskDescription]の配列
  */
 function writeToSheet(parsedReport) {
-  Logger.log(parsedReport);
   const sheet = SpreadsheetApp.getActiveSheet();
-
   const rowCount = parsedReport.length;
   const columnCount = parsedReport[0].length;
-
   const range = sheet.getRange(1, 1, rowCount, columnCount);
   range.setValues(parsedReport);
 }
@@ -79,12 +76,8 @@ function writeToSheet(parsedReport) {
  * @param  {Integer} month       レポートを取得する月
  */
 function fillSheetByReport(workplaceId, year, month) {
-  const period = Utils.getPeriod(year, month);
-  Logger.log(period);
-
-  const reportJson = Toggl.fetchAllReport(workplaceId, period.since, period.until);
+  let parsedReport = Toggl.getReport(workplaceId, year, month);
   SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 5);
-  let parsedReport = Toggl.parseReportData(reportJson);
   parsedReport = parsedReport.reverse();
   writeToSheet(parsedReport);
 }

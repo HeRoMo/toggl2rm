@@ -14,6 +14,20 @@ const Toggl = {
   },
 
   /**
+   * レポート（詳細）取得する
+   * データは必要な項目のみの配列に変換済み
+   * @param  {Integer} workplaceId ワークプレイスID
+   * @param  {Integer} year        レポートを取得する年
+   * @param  {Integer} month       レポートを取得する月
+   * @return {[type]}             [タスクID, チケットNo, 日付, 時間, メモ, タスク名]の配列
+   */
+  getAllReport(workplaceId, year, month) {
+    const period = Utils.getPeriod(year, month);
+    const reportJson = this.fetchAllReport(workplaceId, period.since, period.until);
+    return this.parseReportData(reportJson);
+  },
+
+  /**
    * レポート（詳細）を全部取得する。
    * 複数ページある場合、すべてのページを取得する
    * @param  {Integer} workplaceId ワークプレイスID
