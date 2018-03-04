@@ -1,6 +1,6 @@
 "use strict"
 var Redmine = {
-  
+
   addTimeEntry:function (ticketId, date, hours, comment){
     var rmServer = Props.get('RM_SERVER')
     var apiKey = Props.get('RM_API_KEY')
@@ -11,7 +11,7 @@ var Redmine = {
       "hours": hours,
       "comments": comment
     }
-    
+
     var opts = {
       "method": "post",
       "headers": { "Content-Type": "application/json" },
@@ -22,3 +22,5 @@ var Redmine = {
     return (code == 201)
   }
 }
+
+global.Redmine = Redmine;

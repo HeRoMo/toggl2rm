@@ -1,6 +1,6 @@
 "use strict"
 var Toggl = {
-  
+
   getWorkspaces: function (){
     var url = "https://www.toggl.com/api/v8/workspaces"
     var response = this._callTogglApi(url)
@@ -40,7 +40,7 @@ var Toggl = {
     return {reportJson: reportJson, hasNext: hasNext}
   },
 
-  parseReportData: function (reportJson){  
+  parseReportData: function (reportJson){
     var parsedReport = reportJson.map(function(report){
       var startDate = /^([0-9]{4}-[0-9]{2}-[0-9]{2})T.+$/.exec(report.start)[1]
       var duration = Math.round(report.dur/(60*60*10))/100
@@ -55,7 +55,7 @@ var Toggl = {
     }).filter(function(elm){ return elm != null })
     return parsedReport
   },
-  
+
   _callTogglApi: function (url){
     var togglKey = Props.get("TOGGL_API_TOKEN")
     Logger.log(togglKey)
@@ -77,3 +77,5 @@ function _togglTest(){
 //  Logger.log(result.reportJson)
 //  Logger.log(result.hasNext)
 }
+
+global.Toggl = Toggl;

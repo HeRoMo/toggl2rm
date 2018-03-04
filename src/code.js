@@ -17,7 +17,7 @@ function onInstall() {
 /**
  * サイドバーの表示
  */
-function showSidebar(){  
+function showSidebar(){
   // サイドバー表示
   var sidebarTmpl = HtmlService.createTemplateFromFile('sidebar');
   var sidebar = sidebarTmpl.evaluate();
@@ -46,9 +46,6 @@ function isValidSettings(){
   return isValid
 }
 
-
-
-
 ////////////////////////////////////////////////////
 
 /**
@@ -57,10 +54,10 @@ function isValidSettings(){
 function writeToSheet(parsedReport) {
   Logger.log(parsedReport)
   var sheet = SpreadsheetApp.getActiveSheet();
-  
+
   var rowCount = parsedReport.length
   var columnCount = parsedReport[0].length
- 
+
   var row = 1
   var column = 1
   var range = sheet.getRange(1, 1, rowCount, columnCount)
@@ -79,9 +76,9 @@ function extractFromToggl(workplace_id, year, month){
   var result = writeToSheet(parsedReport)
 }
 
-function addTimeEntryFromSheet(){  
+function addTimeEntryFromSheet(){
   var sheet = SpreadsheetApp.getActiveSheet();
-  
+
   var activeRange = sheet.getDataRange()
   var data = activeRange.getValues()
   data.forEach(function(d){
@@ -116,7 +113,7 @@ function getYearMonths(){
   return yearMonths
 }
 
-function getPeriod(year, month){  
+function getPeriod(year, month){
   var start = new Date(year, (month - 1), 1)
   var end = new Date(year, month, 0)
   var since = Utilities.formatDate(start, "JST", "yyyy-MM-dd")
@@ -124,3 +121,15 @@ function getPeriod(year, month){
   var period = { since: since, until: until }
   return period
 }
+
+global.onOpen = onOpen;
+global.onInstall = onInstall;
+global.showSidebar = showSidebar;
+global.showSettingDialog = showSettingDialog;
+global.isValidSettings = isValidSettings;
+global.writeToSheet = writeToSheet;
+global.extractFromToggl = extractFromToggl;
+global.addTimeEntryFromSheet = addTimeEntryFromSheet;
+global.showError = showError;
+global.getYearMonths = getYearMonths;
+global.getPeriod = getPeriod;
