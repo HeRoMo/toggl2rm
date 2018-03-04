@@ -13,6 +13,13 @@ const Props = {
     return this._userProperties.getProperties();
   },
 
+  isValid() {
+    const props = this.getAll();
+    const isValid = Object.keys(props).every(key =>
+      (!!props[key] && props[key].length > 0));
+    return isValid;
+  },
+
   set(key, value) {
     this._userProperties.setProperty(key, value);
   },

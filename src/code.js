@@ -37,10 +37,7 @@ function showSettingDialog() {
 }
 
 function isValidSettings() {
-  const props = Props.getAll();
-  const isValid = Object.keys(props).every(key =>
-    (!!props[key] && props[key].length > 0));
-  return isValid;
+  return Props.isValid();
 }
 
 //--------------------------
