@@ -78,7 +78,7 @@ function writeToSheet(parsedReport) {
  * @param  {Integer} year        レポートを取得する年
  * @param  {Integer} month       レポートを取得する月
  */
-function extractFromToggl(workplaceId, year, month) {
+function fillSheetByReport(workplaceId, year, month) {
   const period = Utils.getPeriod(year, month);
   Logger.log(period);
 
@@ -124,6 +124,6 @@ global.onInstall = onInstall;
 global.showSidebar = showSidebar;
 global.showSettingDialog = showSettingDialog;
 global.isValidSettings = isValidSettings;
-global.extractFromToggl = extractFromToggl;
+global.fillSheetByReport = fillSheetByReport;
 global.addTimeEntryFromSheet = addTimeEntryFromSheet;
 global.showError = showError;

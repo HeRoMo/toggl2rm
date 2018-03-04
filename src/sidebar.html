@@ -70,7 +70,7 @@
       google.script.run
         .withFailureHandler(onFailure)
         .withSuccessHandler(onSuccess)
-        .extractFromToggl(workspace_id, year_month[0], year_month[1])
+        .fillSheetByReport(workspace_id, year_month[0], year_month[1])
     })
 
     document.querySelector('button#entryTime').addEventListener('click', function(event){
