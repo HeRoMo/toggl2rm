@@ -10,6 +10,7 @@ globals:
   Props: false
   Redmine: false
   Toggl: false
+  Utils: false
 
 rules:
   no-underscore-dangle: [error, { allowAfterThis: true }]

@@ -60,7 +60,7 @@ function writeToSheet(parsedReport) {
 }
 
 function extractFromToggl(workplaceId, year, month) {
-  const period = getPeriod(year, month);
+  const period = Utils.getPeriod(year, month);
   Logger.log(period);
 
   const reportJson = Toggl.fetchReport(workplaceId, period.since, period.until);
@@ -94,28 +94,6 @@ function showError(message) {
   ui.alert('ERROR', message, ui.ButtonSet.OK);
 }
 
-//---------------------------
-
-function getYearMonths() {
-  const now = new Date();
-  const yearMonths = [Utilities.formatDate(now, 'JST', 'yyyy-MM')];
-  for (let i = 0; i < 5; i += 1) {
-    now.setMonth(now.getMonth() - 1);
-    const ym = Utilities.formatDate(now, 'JST', 'yyyy-MM');
-    yearMonths.push(ym);
-  }
-  return yearMonths;
-}
-
-function getPeriod(year, month) {
-  const start = new Date(year, (month - 1), 1);
-  const end = new Date(year, month, 0);
-  const since = Utilities.formatDate(start, 'JST', 'yyyy-MM-dd');
-  const until = Utilities.formatDate(end, 'JST', 'yyyy-MM-dd');
-  const period = { since, until };
-  return period;
-}
-
 global.onOpen = onOpen;
 global.onInstall = onInstall;
 global.showSidebar = showSidebar;
@@ -125,5 +103,3 @@ global.writeToSheet = writeToSheet;
 global.extractFromToggl = extractFromToggl;
 global.addTimeEntryFromSheet = addTimeEntryFromSheet;
 global.showError = showError;
-global.getYearMonths = getYearMonths;
-global.getPeriod = getPeriod;
