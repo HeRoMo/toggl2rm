@@ -76,7 +76,7 @@ function writeToSheet(parsedReport) {
  * @param  {Integer} month       レポートを取得する月
  */
 function fillSheetByReport(workplaceId, year, month) {
-  let parsedReport = Toggl.getReport(workplaceId, year, month);
+  let parsedReport = Toggl.getAllReport(workplaceId, year, month);
   SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 5);
   parsedReport = parsedReport.reverse();
   writeToSheet(parsedReport);

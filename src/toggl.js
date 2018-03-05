@@ -19,12 +19,12 @@ const Toggl = {
    * @param  {Integer} workplaceId ワークプレイスID
    * @param  {Integer} year        レポートを取得する年
    * @param  {Integer} month       レポートを取得する月
-   * @return {[type]}             [タスクID, チケットNo, 日付, 時間, メモ, タスク名]の配列
+   * @return {Array[][]}             [タスクID, チケットNo, 日付, 時間, メモ, タスク名]の配列
    */
   getAllReport(workplaceId, year, month) {
     const period = Utils.getPeriod(year, month);
     const reportJson = this.fetchAllReport(workplaceId, period.since, period.until);
-    return this.parseReportData(reportJson);
+    return this._parseReportData(reportJson);
   },
 
   /**
@@ -40,7 +40,7 @@ const Toggl = {
     let hasNext = true;
     let report = [];
     while (hasNext) {
-      const result = this.fetchReport(workplaceId, since, until, page);
+      const result = this._fetchReport(workplaceId, since, until, page);
       const reportJson = result.reportJson;
       hasNext = result.hasNext;
       Utilities.sleep(1500); // APIのrate limitを避けるため
@@ -58,7 +58,7 @@ const Toggl = {
    * @param  {Number} [page=1]    取得ページ番号
    * @return {Array[Obejct]}      Togglのレポートオブジェクト
    */
-  fetchReport(workplaceId, since, until, page = 1) {
+  _fetchReport(workplaceId, since, until, page = 1) {
     const url = Utilities.formatString(
       'https://toggl.com/reports/api/v2/details?workspace_id=%s&since=%s&until=%s&page=%s&user_agent=toggl2rm',
       workplaceId,
@@ -86,7 +86,7 @@ const Toggl = {
    * @param  {Array[Object]} reportJson Togglのレポートオブジェクトの配列
    * @return {Array[][]}     必要な値の配列のリスト
    */
-  parseReportData(reportJson) {
+  _parseReportData(reportJson) {
     const ticketNoIndex = 1;
     const parsedReport = reportJson.map((report) => {
       const startDate = /^([0-9]{4}-[0-9]{2}-[0-9]{2})T.+$/.exec(report.start)[1];

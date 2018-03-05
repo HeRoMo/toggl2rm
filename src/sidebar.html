@@ -62,7 +62,8 @@
       function onSuccess(){
         SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 3);
       }
-      function onFailure(){
+      function onFailure(error){
+        console.log(error)
         google.script.run.showError('Togglからの取得に失敗しました')
       }
       var workspace_id = document.querySelector('select#workspace').value
