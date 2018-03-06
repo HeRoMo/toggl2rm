@@ -1,10 +1,11 @@
+const TOGGL_API_TOKEN = 'TOGGL_API_TOKEN';
 /**
  * TogglのAPIを実行する
  * @param  {[type]} url APIのエンドポイントURL＋クエリパラメータ
  * @return {[type]}     APIのレスポンス
  */
 function callTogglApi(url) {
-  const togglKey = Props.get('TOGGL_API_TOKEN');
+  const togglKey = Props.get(TOGGL_API_TOKEN);
   const authToken = Utilities.base64Encode(`${togglKey}:api_token`);
   const headers = { Authorization: `Basic ${authToken}` };
   const response = UrlFetchApp.fetch(url, { headers });
