@@ -82,6 +82,7 @@
       }
       function onFailure(error){
         console.log(error);
+        google.script.run.showError('Redmineへの時間登録に失敗しました');
       }
       google.script.run
         .withFailureHandler(onFailure)

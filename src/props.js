@@ -29,9 +29,4 @@ const Props = {
   },
 };
 
-function setProps(props) {
-  Props.setProps(props);
-}
-
 global.Props = Props;
-global.setProps = setProps;

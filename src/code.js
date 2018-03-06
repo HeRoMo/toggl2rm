@@ -113,6 +113,14 @@ function showError(message) {
   ui.alert('ERROR', message, ui.ButtonSet.OK);
 }
 
+/**
+ * プロパティを保存する
+ * @param {Object} props プロパティのhash
+ */
+function setProps(props) {
+  Props.setProps(props);
+}
+
 global.onOpen = onOpen;
 global.onInstall = onInstall;
 global.showSidebar = showSidebar;
@@ -121,3 +129,4 @@ global.isValidSettings = isValidSettings;
 global.fillSheetWithReport = fillSheetWithReport;
 global.addTimeEntryFromSheet = addTimeEntryFromSheet;
 global.showError = showError;
+global.setProps = setProps;
