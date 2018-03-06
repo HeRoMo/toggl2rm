@@ -46,14 +46,6 @@ function showSettingDialog() {
 }
 
 /**
- * 設定が有効かどうかを判定する
- * @return {Boolean} すべての設定に値がある場合 true。それ以外はfalse
- */
-function isValidSettings() {
-  return Props.isValid();
-}
-
-/**
  * データをスプレッドシートに書き込む
  * @param  {Array[][]} parsedReport [taskId,
  *                                   ticketNo,
@@ -121,12 +113,21 @@ function setProps(props) {
   Props.setProps(props);
 }
 
+/**
+ * 設定が有効かどうかを判定する
+ * @return {Boolean} すべての設定に値がある場合 true。それ以外はfalse
+ */
+function isValidProps() {
+  return Props.isValid();
+}
+
 global.onOpen = onOpen;
 global.onInstall = onInstall;
 global.showSidebar = showSidebar;
 global.showSettingDialog = showSettingDialog;
-global.isValidSettings = isValidSettings;
 global.fillSheetWithReport = fillSheetWithReport;
 global.addTimeEntryFromSheet = addTimeEntryFromSheet;
 global.showError = showError;
+
 global.setProps = setProps;
+global.isValidProps = isValidProps;
