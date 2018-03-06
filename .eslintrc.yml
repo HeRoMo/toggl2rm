@@ -8,7 +8,6 @@ env:
 
 globals:
   Props: false
-  Redmine: false
   Toggl: false
   Utils: false
 

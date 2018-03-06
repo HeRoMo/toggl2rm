@@ -7,7 +7,6 @@ export default {
   entry: {
     code: './code.js',
     props: './props.js',
-    redmine: './redmine.js',
     toggl: './toggl.js',
     utils: './utils',
   },

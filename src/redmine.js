@@ -1,3 +1,6 @@
+const RM_SERVER = 'RM_SERVER';
+const RM_API_KEY = 'RM_API_KEY';
+
 const Redmine = {
   /**
    * Redmineに時間を記録する
@@ -7,8 +10,8 @@ const Redmine = {
    * @param {String} comments  作業メモ
    */
   addTimeEntry(ticketNo, date, hours, comments) {
-    const rmServer = Props.get('RM_SERVER');
-    const apiKey = Props.get('RM_API_KEY');
+    const rmServer = Props.get(RM_SERVER);
+    const apiKey = Props.get(RM_API_KEY);
     const url = `${rmServer}/time_entries.xml?key=${apiKey}`;
     const timeEntry = {
       issue_id: ticketNo,
@@ -28,4 +31,4 @@ const Redmine = {
   },
 };
 
-global.Redmine = Redmine;
+export default Redmine;

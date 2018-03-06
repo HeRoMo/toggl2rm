@@ -1,5 +1,6 @@
-const APP_NAME = 'Toggl > Redmine';
+import Redmine from './redmine';
 
+const APP_NAME = 'Toggl > Redmine';
 /**
  * スプレッドシートのオープンイベント処理
  * メニューを追加する。
