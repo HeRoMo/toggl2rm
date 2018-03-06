@@ -52,10 +52,12 @@
 <script type="text/javascript">
   (function(){
     document.querySelector('button#setting').addEventListener('click', function(event){
-      function onSuccessOfSetting(){
+      function onSuccess(){
         event.target.classList.remove('red')
       }
-      google.script.run.withSuccessHandler(onSuccessOfSetting).showSettingDialog()
+      google.script.run
+        .withSuccessHandler(onSuccess)
+        .showSettingDialog();
     })
 
     document.querySelector('button#fetchTime').addEventListener('click', function(event){
@@ -63,28 +65,28 @@
         SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 3);
       }
       function onFailure(error){
-        console.log(error)
-        google.script.run.showError('Togglからの取得に失敗しました')
+        console.log(error);
+        google.script.run.showError('Togglからの取得に失敗しました');
       }
-      var workspace_id = document.querySelector('select#workspace').value
-      var year_month = document.querySelector('select#year-month').value.split('-')
+      var workspaceId = document.querySelector('select#workspace').value;
+      var yearMonth = document.querySelector('select#year-month').value.split('-');
       google.script.run
         .withFailureHandler(onFailure)
         .withSuccessHandler(onSuccess)
-        .fillSheetByReport(workspace_id, year_month[0], year_month[1])
+        .fillSheetWithReport(workspaceId, yearMonth[0], yearMonth[1]);
     })
 
     document.querySelector('button#entryTime').addEventListener('click', function(event){
       function onSuccess(){
-        console.log('SUCCESS')
+        console.log('SUCCESS');
       }
-      function onFailure(){
-        console.log('ERROR')
+      function onFailure(error){
+        console.log(error);
       }
       google.script.run
         .withFailureHandler(onFailure)
         .withSuccessHandler(onSuccess)
-        .addTimeEntryFromSheet()
+        .addTimeEntryFromSheet();
     })
   })()
 </script>

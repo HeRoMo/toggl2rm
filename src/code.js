@@ -62,12 +62,12 @@ function isValidSettings() {
  *                                   memo,
  *                                   taskDescription]の配列
  */
-function writeToSheet(parsedReport) {
+function writeToSheet(report) {
   const sheet = SpreadsheetApp.getActiveSheet();
-  const rowCount = parsedReport.length;
-  const columnCount = parsedReport[0].length;
+  const rowCount = report.length;
+  const columnCount = report[0].length;
   const range = sheet.getRange(1, 1, rowCount, columnCount);
-  range.setValues(parsedReport);
+  range.setValues(report);
 }
 
 /**
@@ -76,11 +76,11 @@ function writeToSheet(parsedReport) {
  * @param  {Integer} year        レポートを取得する年
  * @param  {Integer} month       レポートを取得する月
  */
-function fillSheetByReport(workplaceId, year, month) {
-  let parsedReport = Toggl.getAllReport(workplaceId, year, month);
+function fillSheetWithReport(workplaceId, year, month) {
+  let report = Toggl.getAllReport(workplaceId, year, month);
   SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 5);
-  parsedReport = parsedReport.reverse();
-  writeToSheet(parsedReport);
+  report = report.reverse();
+  writeToSheet(report);
 }
 
 /**
@@ -118,6 +118,6 @@ global.onInstall = onInstall;
 global.showSidebar = showSidebar;
 global.showSettingDialog = showSettingDialog;
 global.isValidSettings = isValidSettings;
-global.fillSheetByReport = fillSheetByReport;
+global.fillSheetWithReport = fillSheetWithReport;
 global.addTimeEntryFromSheet = addTimeEntryFromSheet;
 global.showError = showError;
