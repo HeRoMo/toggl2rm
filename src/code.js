@@ -46,14 +46,6 @@ function showSettingDialog() {
 }
 
 /**
- * 設定が有効かどうかを判定する
- * @return {Boolean} すべての設定に値がある場合 true。それ以外はfalse
- */
-function isValidSettings() {
-  return Props.isValid();
-}
-
-/**
  * データをスプレッドシートに書き込む
  * @param  {Array[][]} parsedReport [taskId,
  *                                   ticketNo,
@@ -62,12 +54,12 @@ function isValidSettings() {
  *                                   memo,
  *                                   taskDescription]の配列
  */
-function writeToSheet(parsedReport) {
+function writeToSheet(report) {
   const sheet = SpreadsheetApp.getActiveSheet();
-  const rowCount = parsedReport.length;
-  const columnCount = parsedReport[0].length;
+  const rowCount = report.length;
+  const columnCount = report[0].length;
   const range = sheet.getRange(1, 1, rowCount, columnCount);
-  range.setValues(parsedReport);
+  range.setValues(report);
 }
 
 /**
@@ -76,11 +68,11 @@ function writeToSheet(parsedReport) {
  * @param  {Integer} year        レポートを取得する年
  * @param  {Integer} month       レポートを取得する月
  */
-function fillSheetByReport(workplaceId, year, month) {
-  let parsedReport = Toggl.getAllReport(workplaceId, year, month);
+function fillSheetWithReport(workplaceId, year, month) {
+  let report = Toggl.getAllReport(workplaceId, year, month);
   SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 5);
-  parsedReport = parsedReport.reverse();
-  writeToSheet(parsedReport);
+  report = report.reverse();
+  writeToSheet(report);
 }
 
 /**
@@ -113,11 +105,29 @@ function showError(message) {
   ui.alert('ERROR', message, ui.ButtonSet.OK);
 }
 
+/**
+ * プロパティを保存する
+ * @param {Object} props プロパティのhash
+ */
+function setProps(props) {
+  Props.setProps(props);
+}
+
+/**
+ * 設定が有効かどうかを判定する
+ * @return {Boolean} すべての設定に値がある場合 true。それ以外はfalse
+ */
+function hasInvalidProps() {
+  return !Props.isValid();
+}
+
 global.onOpen = onOpen;
 global.onInstall = onInstall;
 global.showSidebar = showSidebar;
 global.showSettingDialog = showSettingDialog;
-global.isValidSettings = isValidSettings;
-global.fillSheetByReport = fillSheetByReport;
+global.fillSheetWithReport = fillSheetWithReport;
 global.addTimeEntryFromSheet = addTimeEntryFromSheet;
 global.showError = showError;
+
+global.setProps = setProps;
+global.hasInvalidProps = hasInvalidProps;

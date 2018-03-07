@@ -32,7 +32,7 @@
       <label for="rm-api-key">API KEY: </label>
       <input type="text" id="RM_API_KEY" class="setting" value="<?=Props.get('RM_API_KEY')?>">
     </div>
-    
+
   </fieldset>
   <div class="block form-group bottom-right">
     <button id="save" class="blue">保存</button>
@@ -45,16 +45,21 @@
         var props = {}
         var settings = document.querySelectorAll("input.setting")
         settings.forEach(function(setting){
-          props[setting.id] = setting.value
+          props[setting.id] = setting.value;
         })
-        console.log(props)
-        google.script.run.setProps(props)
-        google.script.host.close()
+        function onSuccess(){
+          google.script.host.close();
+        }
+        function onError(error){
+          console.log(error);
+        }
+        google.script.run
+          .withFailureHandler(onError)
+          .withSuccessHandler(onSuccess)
+          .setProps(props);
       }
-      document.querySelector("#save").addEventListener('click', saveSettings)
+      document.querySelector("#save").addEventListener('click', saveSettings);
     })();
   </script>
 </body>
 </html>
-
-
