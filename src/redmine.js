@@ -1,6 +1,27 @@
 const RM_SERVER = 'RM_SERVER';
 const RM_API_KEY = 'RM_API_KEY';
 
+/**
+ * Redmine APIにリクエストを投げる
+ * @param  {String} path    API エンドポイントのパス（'/' 始まり）
+ * @param  {Object} options リクエストのオプション
+ * @return {Response}         [description]
+ */
+function callRedmineApi(path, options) {
+  const rmServer = Props.get(RM_SERVER);
+  const apiKey = Props.get(RM_API_KEY);
+  const opts = options;
+  opts.headers = options.headers || {};
+  opts.headers['X-Redmine-API-Key'] = apiKey;
+  if (options.payload) {
+    opts.headers['Content-Type'] = 'application/json';
+    opts.payload = JSON.stringify(options.payload);
+  }
+  const url = `${rmServer}${path}`;
+  const response = UrlFetchApp.fetch(url, opts);
+  return response;
+}
+
 const Redmine = {
   /**
    * Redmineに時間を記録する
@@ -10,22 +31,17 @@ const Redmine = {
    * @param {String} comments  作業メモ
    */
   addTimeEntry(ticketNo, date, hours, comments) {
-    const rmServer = Props.get(RM_SERVER);
-    const apiKey = Props.get(RM_API_KEY);
-    const url = `${rmServer}/time_entries.xml?key=${apiKey}`;
     const timeEntry = {
       issue_id: ticketNo,
       spent_on: date,
       hours,
       comments,
     };
-
-    const opts = {
+    const options = {
       method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      payload: JSON.stringify({ time_entry: timeEntry }),
+      payload: { time_entry: timeEntry },
     };
-    const response = UrlFetchApp.fetch(url, opts);
+    const response = callRedmineApi('/time_entries.xml', options);
     const code = response.getResponseCode();
     return (code === 201);
   },
