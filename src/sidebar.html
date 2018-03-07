@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="sidebar branding-below">
-  <button id="setting" class="fullwidth <?=function(){if(!isValidProps()) return 'red'}()?>" style="width: 100%">設定</button>
+  <button id="setting" class="fullwidth <?=function(){if(hasInvalidProps()) return 'red'}()?>" style="width: 100%">設定</button>
   <fieldset>
     <legend>Toggl</legend>
     <div class="block form-group">
@@ -56,24 +56,27 @@
       function onSuccess(){
         event.target.classList.remove('red')
       }
+      function onFailure(error){
+        var message = 'ワークスペースの取得でエラーが発生しました。';
+        showErrorDialog(message, error)
+      }
       google.script.run
         .withSuccessHandler(onSuccess)
+        .withFailureHandler(onFailure)
         .showSettingDialog();
     })
 
     document.querySelector('button#fetchTime').addEventListener('click', function(event){
-      function onSuccess(){
-        SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 3);
-      }
+      function onSuccess(){}
       function onFailure(error){
-        console.log(error);
-        google.script.run.showError('Togglからの取得に失敗しました');
+        var message = 'Togglからのデータ取得でエラーが発生しました。';
+        showErrorDialog(message, error);
       }
       var workspaceId = document.querySelector('select#workspace').value;
       var yearMonth = document.querySelector('select#year-month').value.split('-');
       google.script.run
-        .withFailureHandler(onFailure)
         .withSuccessHandler(onSuccess)
+        .withFailureHandler(onFailure)
         .fillSheetWithReport(workspaceId, yearMonth[0], yearMonth[1]);
     })
 
@@ -82,14 +85,22 @@
         console.log('SUCCESS');
       }
       function onFailure(error){
-        console.log(error);
-        google.script.run.showError('Redmineへの時間登録に失敗しました');
+        var message = 'Redmineへの時間登録でエラーが発生しました。'
+        showErrorDialog(message, error);
       }
       google.script.run
-        .withFailureHandler(onFailure)
         .withSuccessHandler(onSuccess)
+        .withFailureHandler(onFailure)
         .addTimeEntryFromSheet();
     })
+
+    function showErrorDialog(message, error){
+      console.log(error);
+      if(error) message+= ': ' + error.name + '\n' + error.message;
+      google.script.run
+        .withFailureHandler(function(e){ alert(message) })
+        .showError(message);
+    }
   })()
 </script>
 </body>

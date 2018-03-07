@@ -117,8 +117,8 @@ function setProps(props) {
  * 設定が有効かどうかを判定する
  * @return {Boolean} すべての設定に値がある場合 true。それ以外はfalse
  */
-function isValidProps() {
-  return Props.isValid();
+function hasInvalidProps() {
+  return !Props.isValid();
 }
 
 global.onOpen = onOpen;
@@ -130,4 +130,4 @@ global.addTimeEntryFromSheet = addTimeEntryFromSheet;
 global.showError = showError;
 
 global.setProps = setProps;
-global.isValidProps = isValidProps;
+global.hasInvalidProps = hasInvalidProps;
