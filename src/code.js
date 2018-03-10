@@ -1,3 +1,4 @@
+import Toggl from './toggl';
 import Redmine from './redmine';
 
 const APP_NAME = 'Toggl > Redmine';

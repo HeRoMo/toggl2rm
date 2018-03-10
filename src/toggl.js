@@ -118,4 +118,4 @@ const Toggl = {
   },
 };
 
-global.Toggl = Toggl;
+export default Toggl;
