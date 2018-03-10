@@ -46,6 +46,14 @@ function showSettingDialog() {
 }
 
 /**
+ * Togglのワークスペースを取得する
+ * @return {Array[Object]} ワークスペースの{id, name}のリスト
+ */
+function getWorkspaces() {
+  return Toggl.getWorkspaces();
+}
+
+/**
  * データをスプレッドシートに書き込む
  * @param  {Array[][]} parsedReport [taskId,
  *                                   ticketNo,
@@ -125,6 +133,7 @@ global.onOpen = onOpen;
 global.onInstall = onInstall;
 global.showSidebar = showSidebar;
 global.showSettingDialog = showSettingDialog;
+global.getWorkspaces = getWorkspaces;
 global.fillSheetWithReport = fillSheetWithReport;
 global.addTimeEntryFromSheet = addTimeEntryFromSheet;
 global.showError = showError;

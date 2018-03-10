@@ -40,13 +40,8 @@
   <fieldset>
     <legend>Toggl</legend>
     <div class="block form-group">
-      <? var workspaces = Toggl.getWorkspaces() ?>
       <label for="workspace">Workspace: </label>
-      <select id="workspace">
-        <? for(var i = 0; i < workspaces.length; i++){ ?>
-        <option value="<?= workspaces[i].id ?>"><?= workspaces[i].name ?></option>
-        <? } ?>
-      </select>
+      <select id="workspace"></select>
     </div>
     <div class="block form-group">
       <? var ym = Utils.getYearMonths() ?>
@@ -77,6 +72,27 @@
 </div>
 <script type="text/javascript">
   (function(){
+    document.addEventListener('DOMContentLoaded', function(){
+      function onSuccess(workspaces){
+        const fragment = document.createDocumentFragment();
+        for(const workspace of workspaces){
+          const option = document.createElement('option');
+          option.value = workspace.id;
+          option.textContent = workspace.name;
+          fragment.appendChild(option)
+        }
+        const selectWorkspace = document.querySelector('select#workspace');
+        selectWorkspace.appendChild(fragment);
+      }
+      function onFailure(error){
+
+      }
+      google.script.run
+        .withSuccessHandler(onSuccess)
+        .withFailureHandler(onFailure)
+        .getWorkspaces();
+    });
+
     function setProcessing(target){
       target.classList.add('processing');
       target.disabled=true;
