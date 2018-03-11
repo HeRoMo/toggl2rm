@@ -1,32 +1,32 @@
-"use strict"
-
-var SHEET_ID = "14OWbiIvtKrQ6HyKMLEtyDp36uJCUW5YaLGkzrBsWjhg"
-
-
 /**
  * UserProperty
  */
-var Props = {
-  
+const Props = {
+
   _userProperties: PropertiesService.getUserProperties(),
-  
-  get: function (key){
-    return this._userProperties.getProperty(key)
+
+  get(key) {
+    return this._userProperties.getProperty(key);
   },
-  
-  getAll: function (){
-    return this._userProperties.getProperties()
+
+  getAll() {
+    return this._userProperties.getProperties();
   },
-  
-  set: function(key, value){
+
+  isValid() {
+    const props = this.getAll();
+    const isValid = Object.keys(props).every(key =>
+      (!!props[key] && props[key].length > 0));
+    return isValid;
+  },
+
+  set(key, value) {
     this._userProperties.setProperty(key, value);
   },
-  
-  setProps: function(props){
-    this._userProperties.setProperties(props);
-  }
-}
 
-function setProps(props){
-  Props.setProps(props)
-}
+  setProps(props) {
+    this._userProperties.setProperties(props);
+  },
+};
+
+global.Props = Props;

@@ -1,15 +1,34 @@
 {
   "name": "toggl2rm",
-  "version": "0.0.1",
-  "description": "A Google Sheet Add-on",
-  "main": "index.js",
+  "version": "1.0.0",
+  "description": "A Google Sheets Add-on, which can fetch Toggl report and create time entry of Redmine.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack",
+    "cleanup": "rm -f dest/*",
+    "deploy": "gapps upload"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "Toggl",
+    "Redmine",
+    "GAS"
+  ],
+  "author": "HeRoMo",
+  "repository": "https://github.com/HeRoMo/toggl2rm.git",
+  "license": "CC-BY-NC-4.0",
   "devDependencies": {
-    "node-google-apps-script": "^1.2.0"
+    "ajv": "^6.2.1",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-gas": "^1.0.0",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-googleappsscript": "^1.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "file-loader": "^1.1.11",
+    "gas-webpack-plugin": "^0.2.1",
+    "html-webpack-plugin": "^3.0.6",
+    "node-google-apps-script": "^1.2.0",
+    "webpack": "^3.11.0"
   }
 }
