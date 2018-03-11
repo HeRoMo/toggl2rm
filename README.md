@@ -70,4 +70,4 @@ Toggl2Rm has the following features,
    All rows in active sheet  send to your Redmine server.
 
 ## License
-MIT
+[GPLv3](https://www.gnu.org/licenses/gpl-3.0.txt)
