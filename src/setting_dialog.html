@@ -6,25 +6,28 @@
   <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
   <style type="text/css">
     input { width: 100% }
+    input:invalid {
+      background-color: #ffbbbb;
+    }
   </style>
 </head>
 <body>
   <fieldset>
     <legend>Toggl</legend>
     <div class="block form-group">
-      <label for="toggle-api-token">API TOKEN: </label>
-      <input type="text" id="TOGGL_API_TOKEN" class="setting" value="<?=Props.get('TOGGL_API_TOKEN')?>" >
+      <label for="toggle-api-token">API token (<a href="https://toggl.com/app/profile" target="_blank">get API token</a>):</label>
+      <input type="text" id="TOGGL_API_TOKEN" class="setting" pattern='^[0-9a-z]+$' value="<?=Props.get('TOGGL_API_TOKEN')?>" >
     </div>
   </fieldset>
   <fieldset>
     <legend>Redmine</legend>
     <div class="block form-group">
       <label for="rm-server">Server: </label>
-      <input type="text" id="RM_SERVER" class="setting" value="<?=Props.get('RM_SERVER')?>" placeholder="https://your-rm-host">
+      <input type="text" id="RM_SERVER" class="setting" pattern="^https?://.+[^/]$" value="<?=Props.get('RM_SERVER')?>" placeholder="https://your-rm-host">
     </div>
     <div class="block form-group">
-      <label for="rm-api-key">API KEY: </label>
-      <input type="text" id="RM_API_KEY" class="setting" value="<?=Props.get('RM_API_KEY')?>">
+      <label for="rm-api-key">API KEY (<a href="http://www.redmine.org/projects/redmine/wiki/Rest_api#Authentication"  target="_blank">how to get API KEY</a>):</label>
+      <input type="text" id="RM_API_KEY" class="setting" pattern='^[0-9a-z]+$' value="<?=Props.get('RM_API_KEY')?>">
     </div>
 
   </fieldset>
@@ -34,6 +37,7 @@
   <script type="text/javascript">
     (function(){
       function saveSettings(event){
+        event.currentTarget.disabled=true;
         var props = {}
         var settings = document.querySelectorAll("input.setting")
         settings.forEach(function(setting){
