@@ -1,17 +1,20 @@
 {
   "name": "toggl2rm",
-  "version": "0.0.1",
-  "description": "A Google Sheet Add-on",
-  "main": "index.js",
+  "version": "1.0.0",
+  "description": "A Google Sheets Add-on, which can fetch Toggl report and create time entry of Redmine.",
   "scripts": {
     "build": "webpack",
     "cleanup": "rm -f dest/*",
-    "deploy": "gapps upload",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "gapps upload"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "Toggl",
+    "Redmine",
+    "GAS"
+  ],
+  "author": "HeRoMo",
+  "repository": "https://github.com/HeRoMo/toggl2rm.git",
+  "license": "CC-BY-NC-4.0",
   "devDependencies": {
     "ajv": "^6.2.1",
     "babel-core": "^6.26.0",
