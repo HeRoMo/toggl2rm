@@ -1,7 +1,7 @@
 import Toggl from './toggl';
 import Redmine from './redmine';
 
-const APP_NAME = 'Toggl > Redmine';
+const APP_NAME = 'Toggl2Rm';
 /**
  * スプレッドシートのオープンイベント処理
  * メニューを追加する。
