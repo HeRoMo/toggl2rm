@@ -82,7 +82,6 @@ function fillSheetWithReport(workplaceId, year, month, tikectOnly = true) {
   let report = Toggl.getAllReport(workplaceId, year, month);
   if (tikectOnly) report = report.filter(row => (row[1] !== null));
   SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 5);
-  report = report.reverse();
   writeToSheet(report);
 }
 

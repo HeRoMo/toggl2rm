@@ -58,6 +58,8 @@ function parseReportData(reportJson) {
     const formattedRepo = [report.id, ticketNo, startDate, duration, report.tags.join('、'), report.description];
     return formattedRepo;
   });
+  parsedReport.reverse();
+  parsedReport.unshift(['togglId', 'ticketNo', 'date', 'hours', 'tags', 'toggl description']);
   return parsedReport;
 }
 
