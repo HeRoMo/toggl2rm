@@ -65,6 +65,7 @@ function getWorkspaces() {
  */
 function writeToSheet(report) {
   const sheet = SpreadsheetApp.getActiveSheet();
+  sheet.getDataRange().clear();
   const rowCount = report.length;
   const columnCount = report[0].length;
   const range = sheet.getRange(1, 1, rowCount, columnCount);
@@ -76,11 +77,12 @@ function writeToSheet(report) {
  * @param  {Integer} workplaceId ワークプレイスID
  * @param  {Integer} year        レポートを取得する年
  * @param  {Integer} month       レポートを取得する月
+ * @param  {boolean} tikectOnly  trueの場合、チケットIDありのデータのみ書き込む
  */
-function fillSheetWithReport(workplaceId, year, month) {
+function fillSheetWithReport(workplaceId, year, month, tikectOnly = true) {
   let report = Toggl.getAllReport(workplaceId, year, month);
+  if (tikectOnly) report = report.filter(row => (row[1] !== null));
   SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 5);
-  report = report.reverse();
   writeToSheet(report);
 }
 
@@ -97,7 +99,7 @@ function addTimeEntryFromSheet() {
     const date = Utilities.formatDate(new Date(d[2]), 'JST', 'yyyy-MM-dd');
     const hours = d[3];
     const comment = d[4];
-    if (togglId !== 'NaN') {
+    if (ticketId !== 'NaN') {
       const success = Redmine.addTimeEntry(ticketId, date, hours, comment);
       if (success) Logger.log('TimeEntry[%s]: %s, %s, %s, %s', togglId, ticketId, date, hours, comment);
     }
