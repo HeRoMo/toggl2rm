@@ -65,6 +65,7 @@ function getWorkspaces() {
  */
 function writeToSheet(report) {
   const sheet = SpreadsheetApp.getActiveSheet();
+  sheet.getDataRange().clear();
   const rowCount = report.length;
   const columnCount = report[0].length;
   const range = sheet.getRange(1, 1, rowCount, columnCount);
