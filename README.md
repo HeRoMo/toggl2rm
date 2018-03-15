@@ -61,13 +61,16 @@ Toggl2Rm has the following features,
 2. Open sidebar<br>
    You can open sidebar by menu `Add-on > Toggl2Rm > サイドバーを開く`
 3. Select Workspace and 年月, which you want to get report.
-4. Push `読み出し` button.<br>
-   ** Notice: Active sheet will be overwritten by add-on.**
+4. Select which all data or ticket data.
+5. Push `読み出し` button.<br>
+   **Notice: Active sheet will be overwritten by add-on.**
 
 ### Add time entries to Redmine
 
 1. Push `時間を登録` Button<br>
    All rows in active sheet  send to your Redmine server.
+
+   **Notice: only data that has ticketId are sent to Redmine.**
 
 ## License
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

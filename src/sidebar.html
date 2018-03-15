@@ -56,6 +56,16 @@
       </select>
     </div>
     <div class="block form-group">
+      <div>
+        <input type="radio" name="ticket-only" id="all-data" value="false" >
+        <label for="all-data">すべて取得</label>
+      </div>
+      <div>
+        <input type="radio" name="ticket-only" id="ticket-only" value="true"  checked>
+        <label for="ticket-only">チケットIDありのみ</label>
+      </div>
+    </div>
+    <div class="block form-group">
       <button id="fetchTime" class="fullwidth blue">
         <span>読み出し</span>
         <div class="loading"></div>
@@ -139,10 +149,11 @@
       }
       var workspaceId = document.querySelector('select#workspace').value;
       var yearMonth = document.querySelector('select#year-month').value.split('-');
+      var ticketOnly = document.querySelector('input#ticket-only').checked
       google.script.run
         .withSuccessHandler(onSuccess)
         .withFailureHandler(onFailure)
-        .fillSheetWithReport(workspaceId, yearMonth[0], yearMonth[1]);
+        .fillSheetWithReport(workspaceId, yearMonth[0], yearMonth[1], ticketOnly);
     })
 
     document.querySelector('button#entryTime').addEventListener('click', function(event){
