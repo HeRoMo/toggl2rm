@@ -76,9 +76,11 @@ function writeToSheet(report) {
  * @param  {Integer} workplaceId ワークプレイスID
  * @param  {Integer} year        レポートを取得する年
  * @param  {Integer} month       レポートを取得する月
+ * @param  {boolean} tikectOnly  trueの場合、チケットIDありのデータのみ書き込む
  */
-function fillSheetWithReport(workplaceId, year, month) {
+function fillSheetWithReport(workplaceId, year, month, tikectOnly = true) {
   let report = Toggl.getAllReport(workplaceId, year, month);
+  if (tikectOnly) report = report.filter(row => (row[1] !== null));
   SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 5);
   report = report.reverse();
   writeToSheet(report);
