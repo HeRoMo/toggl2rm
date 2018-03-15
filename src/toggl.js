@@ -53,15 +53,13 @@ function parseReportData(reportJson) {
   const parsedReport = reportJson.map((report) => {
     const startDate = /^([0-9]{4}-[0-9]{2}-[0-9]{2})T.+$/.exec(report.start)[1];
     const duration = Math.round(report.dur / (60 * 60 * 10)) / 100;
-    let ticketNo = '';
-    if (/^#/.test(report.description)) {
-      ticketNo = /^#([0-9]+):?[\s][\S]+/.exec(report.description)[ticketNoIndex];
-    } else {
-      return null;
+    let ticketNo = /^#([0-9]+)/.exec(report.description);
+    if (ticketNo) {
+      ticketNo = ticketNo[ticketNoIndex];
     }
     const formattedRepo = [report.id, ticketNo, startDate, duration, report.tags.join('、'), report.description];
     return formattedRepo;
-  }).filter(elm => (elm != null));
+  });
   return parsedReport;
 }
 

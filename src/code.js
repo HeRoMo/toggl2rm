@@ -97,7 +97,7 @@ function addTimeEntryFromSheet() {
     const date = Utilities.formatDate(new Date(d[2]), 'JST', 'yyyy-MM-dd');
     const hours = d[3];
     const comment = d[4];
-    if (togglId !== 'NaN') {
+    if (ticketId !== 'NaN') {
       const success = Redmine.addTimeEntry(ticketId, date, hours, comment);
       if (success) Logger.log('TimeEntry[%s]: %s, %s, %s, %s', togglId, ticketId, date, hours, comment);
     }
