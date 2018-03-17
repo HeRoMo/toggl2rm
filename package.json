@@ -3,9 +3,11 @@
   "version": "1.1.0",
   "description": "A Google Sheets Add-on, which can fetch Toggl report and create time entry of Redmine.",
   "scripts": {
+    "login": "./node_modules/.bin/clasp login",
+    "init_gas": "./node_modules/.bin/clasp create toggl2rm && node ./utils/modify_clasp_json.js && rm ./appsscript.json",
     "build": "webpack",
     "cleanup": "rm -f dest/*",
-    "deploy": "clasp push"
+    "deploy": "./node_modules/.bin/clasp push"
   },
   "keywords": [
     "Toggl",

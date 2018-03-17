@@ -19,37 +19,31 @@ Toggl2Rm has the following features,
   ```
   npm install
   ```
-3. Create a Google Apps Script in your Google Drive.
-4. Get Google Drive Credentials.
-   see [README of node-google-apps-script](https://github.com/danthareja/node-google-apps-script#1-get-google-drive-credentials)
-5. Authenticate gapps. see [Authenticate gapps](https://github.com/danthareja/node-google-apps-script#2-authenticate-gapps)
-6. Create gapps.config.json. see [Initialize your project](https://github.com/danthareja/node-google-apps-script#3-initialize-your-project).
-   This step overwrites `code.js` file. so you have to restore this file.
+3. Login to Google.
   ```bash
-  git chackout .
+  $ npm run login
   ```
-7. Modify gapps.config.json
-  ```diff
-   {
-  -  "path": "src",
-  +  "path": "dest",
-     "fileId": "yourappsscriptid"
-   }
+4. Turn ON your Google Apps Script API
+   Access to https://script.google.com/home/usersettings and turn on Google Apps Script API.
+   If already ON, skip this step.
+4. Create Google Apps Script for toggl2rm
+  ```bash
+  $ npm run create_gas
   ```
-8. Build project
-  ```
+  The script file named 'taggl2rm' is created in your Google Apps Script.
+5. Build project
+  ```bash
   npm run build
   ```
-9. Upload files to Google Apps Script.
-  ```
+6. Upload files to Google Apps Script.
+  ```bash
   npm run deploy
   ```
-10. Run as test.<br>
+7. Run as test.<br>
     see [Test an Add\-on](https://developers.google.com/apps-script/add-ons/test)
     * Non-published add-on can be executed as only test.
 
 ## How to use
-
 ### Get detail report from Toggl
 
 1. Setting Toggl and Redmine properties<br>
