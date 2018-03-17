@@ -11,19 +11,19 @@ Toggl2Rm has the following features,
 ## Installation
 
 1. Clone this repository
-  ```bash
-  git clone https://github.com/HeRoMo/toggl2rm.git
-  cd toggl2rm
-  ```
+   ```bash
+   $ git clone https://github.com/HeRoMo/toggl2rm.git
+   $ cd toggl2rm
+   ```
 2. Install packages
-  ```
-  npm install
-  ```
+   ```
+   $ npm install
+   ```
 3. Login to Google.
-  ```bash
-  $ npm run login
-  ```
-4. Turn ON your Google Apps Script API
+   ```bash
+   $ npm run login
+   ```
+4. Turn ON your Google Apps Script API<br>
    Access to https://script.google.com/home/usersettings and turn on Google Apps Script API.
    If already ON, skip this step.
 5. Create Google Apps Script for toggl2rm
@@ -32,13 +32,13 @@ Toggl2Rm has the following features,
    ```
    The script file named 'taggl2rm' is created in your Google Apps Script.
 6. Build project
-  ```bash
-  npm run build
-  ```
+   ```bash
+   $ npm run build
+   ```
 7. Upload files to Google Apps Script.
-  ```bash
-  npm run deploy
-  ```
+   ```bash
+   $ npm run deploy
+   ```
 8. Run as test.<br>
     see [Test an Add\-on](https://developers.google.com/apps-script/add-ons/test)
     * Non-published add-on can be executed as only test.
