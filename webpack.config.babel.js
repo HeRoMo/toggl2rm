@@ -20,6 +20,16 @@ export default {
         exclude: /node_modules/,
         use: 'babel-loader',
       },
+      {
+        test: /\.json$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: './[name].[ext]'
+          },
+        },
+      },
     ],
   },
   plugins: [
