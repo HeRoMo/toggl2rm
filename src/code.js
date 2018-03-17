@@ -1,4 +1,4 @@
-import './appsscript.json'
+import './appsscript.json';
 import Toggl from './toggl';
 import Redmine from './redmine';
 
