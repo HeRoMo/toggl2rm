@@ -23,35 +23,27 @@ Toggl2Rm has the following features,
   ```bash
   $ npm run login
   ```
-4. Turn on your Google Apps Script API
+4. Turn ON your Google Apps Script API
    Access to https://script.google.com/home/usersettings and turn on Google Apps Script API.
    If already ON, skip this step.
 4. Create Google Apps Script for toggl2rm
   ```bash
-  $ npm run create_script
+  $ npm run create_gas
   ```
-  The script file named 'taggl2rm' is created in your Google Apps Script,
-  and .clasp.json file is created
-5. Add rootDir option to .clasp.json
-  Modify .clasp.json as the following.
-  ```diff
-  - {"scriptId":"yourappsscriptid"}
-  + {"scriptId":"yourappsscriptid", "rootDir":"dest"}
-  ```
-6. Build project
+  The script file named 'taggl2rm' is created in your Google Apps Script.
+5. Build project
   ```bash
   npm run build
   ```
-7. Upload files to Google Apps Script.
+6. Upload files to Google Apps Script.
   ```bash
   npm run deploy
   ```
-8. Run as test.<br>
+7. Run as test.<br>
     see [Test an Add\-on](https://developers.google.com/apps-script/add-ons/test)
     * Non-published add-on can be executed as only test.
 
 ## How to use
-
 ### Get detail report from Toggl
 
 1. Setting Toggl and Redmine properties<br>
