@@ -8,9 +8,7 @@ env:
 
 globals:
   Props: false
-  Toggl: false
   Utils: false
 
 rules:
-  no-underscore-dangle: [error, { allowAfterThis: true }]
   no-console: ["error", { allow: ["info", "warn", "error"] }]
