@@ -1,16 +1,14 @@
 /**
  * UserProperty
  */
+const userProperties = PropertiesService.getUserProperties();
 const Props = {
-
-  _userProperties: PropertiesService.getUserProperties(),
-
   get(key) {
-    return this._userProperties.getProperty(key);
+    return userProperties.getProperty(key);
   },
 
   getAll() {
-    return this._userProperties.getProperties();
+    return userProperties.getProperties();
   },
 
   isValid() {
@@ -21,11 +19,11 @@ const Props = {
   },
 
   set(key, value) {
-    this._userProperties.setProperty(key, value);
+    userProperties.setProperty(key, value);
   },
 
   setProps(props) {
-    this._userProperties.setProperties(props);
+    userProperties.setProperties(props);
   },
 };
 
