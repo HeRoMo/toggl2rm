@@ -32,7 +32,6 @@ function fetchReport(workplaceId, since, until, page = 1) {
   const content = JSON.parse(response.getContentText());
   const reportJson = content.data;
   const hasNext = (content.per_page <= reportJson.length);
-  Logger.log('%s, %s, %s', reportJson.length, hasNext, page);
   return { reportJson, hasNext };
 }
 
@@ -72,9 +71,7 @@ const Toggl = {
     const url = 'https://www.toggl.com/api/v8/workspaces';
     const response = callTogglApi(url);
     const content = JSON.parse(response.getContentText());
-    Logger.log(content);
     const workspaces = content.map(ws => ({ id: ws.id, name: ws.name }));
-    Logger.log(workspaces);
     return workspaces;
   },
 
