@@ -81,10 +81,20 @@ function writeToSheet(report) {
  * @param  {boolean} tikectOnly  trueの場合、チケットIDありのデータのみ書き込む
  */
 function fillSheetWithReport(workplaceId, year, month, tikectOnly = true) {
-  let report = Toggl.getAllReport(workplaceId, year, month);
-  if (tikectOnly) report = report.filter(row => (row[1] !== null));
-  SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 5);
-  writeToSheet(report);
+  try {
+    let report = Toggl.getAllReport(workplaceId, year, month);
+    const totalCount = report.length;
+    if (tikectOnly) report = report.filter(row => (row[1] !== null));
+    const count = Math.max(report.length - 1, 0); // ヘッダ行を引いておく
+    console.info({ message: `Togglから ${count} 件取得しました`, totalCount, count });
+    SpreadsheetApp.getActiveSpreadsheet().toast(`Success ${count}件取得しました`, 'Toggl');
+    writeToSheet(report);
+  } catch (error) {
+    const user = Session.getTemporaryActiveUserKey();
+    const message = 'Togglデータの読み出しでエラーが発生しました。';
+    console.error({ user, message, error });
+    throw new Error(`${message} \n[${user}]`);
+  }
 }
 
 /**
@@ -105,7 +115,7 @@ function addTimeEntryFromSheet() {
       if (success) Logger.log('TimeEntry[%s]: %s, %s, %s, %s', togglId, ticketId, date, hours, comment);
     }
   });
-  SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Redmine', 5);
+  SpreadsheetApp.getActiveSpreadsheet().toast('Success ', 'Redmine', 5);
 }
 
 /**

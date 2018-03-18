@@ -13,3 +13,4 @@ globals:
 
 rules:
   no-underscore-dangle: [error, { allowAfterThis: true }]
+  no-console: ["error", { allow: ["info", "warn", "error"] }]
