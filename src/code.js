@@ -43,8 +43,7 @@ function showSettingDialog() {
   const template = HtmlService.createTemplateFromFile('setting_dialog');
   const dialog = template.evaluate();
   dialog.setWidth(400).setHeight(300);
-  const result = ui.showModalDialog(dialog, '設定');
-  Logger.log(result);
+  ui.showModalDialog(dialog, '設定');
 }
 
 /**
@@ -52,7 +51,14 @@ function showSettingDialog() {
  * @return {Array[Object]} ワークスペースの{id, name}のリスト
  */
 function getWorkspaces() {
-  return Toggl.getWorkspaces();
+  try {
+    return Toggl.getWorkspaces();
+  } catch (error) {
+    const user = Session.getTemporaryActiveUserKey();
+    const message = 'Togglのワークスペース取得でエラーが発生しました。';
+    console.error({ user, message, error });
+    throw new Error(`${message} \n[${user}]`);
+  }
 }
 
 /**
@@ -81,10 +87,20 @@ function writeToSheet(report) {
  * @param  {boolean} tikectOnly  trueの場合、チケットIDありのデータのみ書き込む
  */
 function fillSheetWithReport(workplaceId, year, month, tikectOnly = true) {
-  let report = Toggl.getAllReport(workplaceId, year, month);
-  if (tikectOnly) report = report.filter(row => (row[1] !== null));
-  SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Toggl', 5);
-  writeToSheet(report);
+  try {
+    let report = Toggl.getAllReport(workplaceId, year, month);
+    const totalCount = Math.max(report.length - 1, 0); // ヘッダ行を引いておく
+    if (tikectOnly) report = report.filter(row => (row[1] !== null));
+    const count = Math.max(report.length - 1, 0); // ヘッダ行を引いておく
+    console.info({ message: `Togglから ${count} 件取得しました`, totalCount, count });
+    SpreadsheetApp.getActiveSpreadsheet().toast(`Success ${count}件取得しました`, 'Toggl');
+    writeToSheet(report);
+  } catch (error) {
+    const user = Session.getTemporaryActiveUserKey();
+    const message = 'Togglデータの読み出しでエラーが発生しました。';
+    console.error({ user, message, error });
+    throw new Error(`${message} \n[${user}]`);
+  }
 }
 
 /**
@@ -94,18 +110,32 @@ function addTimeEntryFromSheet() {
   const sheet = SpreadsheetApp.getActiveSheet();
   const activeRange = sheet.getDataRange();
   const data = activeRange.getValues();
-  data.forEach((d) => {
-    const togglId = Utilities.formatString('%d', d[0]);
-    const ticketId = Utilities.formatString('%d', d[1]);
-    const date = Utilities.formatDate(new Date(d[2]), 'JST', 'yyyy-MM-dd');
-    const hours = d[3];
-    const comment = d[4];
-    if (ticketId !== 'NaN') {
-      const success = Redmine.addTimeEntry(ticketId, date, hours, comment);
-      if (success) Logger.log('TimeEntry[%s]: %s, %s, %s, %s', togglId, ticketId, date, hours, comment);
-    }
-  });
-  SpreadsheetApp.getActiveSpreadsheet().toast('Success', 'Redmine', 5);
+  const dataCount = Math.max(data.length - 1, 0); // ヘッダ行を引いておく
+  let count = 0;
+  try {
+    data.forEach((d) => {
+      const ticketId = Utilities.formatString('%d', d[1]);
+      const date = Utilities.formatDate(new Date(d[2]), 'JST', 'yyyy-MM-dd');
+      const hours = d[3];
+      const comment = d[4];
+      if (ticketId !== 'NaN') {
+        const success = Redmine.addTimeEntry(ticketId, date, hours, comment);
+        if (success) count += 1;
+      }
+    });
+  } catch (error) {
+    const message = `Redmineへの登録でエラーが発生しました。(${count}件 登録済)`;
+    console.error({
+      message,
+      error,
+      dataCount,
+      count,
+    });
+    const user = Session.getTemporaryActiveUserKey();
+    throw new Error(`${message} \n[${user}]`);
+  }
+  console.info({ message: `Redmineに${count}件登録しました`, dataCount, count });
+  SpreadsheetApp.getActiveSpreadsheet().toast(`Success ${count}件 登録しました`, 'Redmine');
 }
 
 /**
