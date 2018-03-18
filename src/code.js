@@ -43,8 +43,7 @@ function showSettingDialog() {
   const template = HtmlService.createTemplateFromFile('setting_dialog');
   const dialog = template.evaluate();
   dialog.setWidth(400).setHeight(300);
-  const result = ui.showModalDialog(dialog, '設定');
-  Logger.log(result);
+  ui.showModalDialog(dialog, '設定');
 }
 
 /**
@@ -52,7 +51,14 @@ function showSettingDialog() {
  * @return {Array[Object]} ワークスペースの{id, name}のリスト
  */
 function getWorkspaces() {
-  return Toggl.getWorkspaces();
+  try {
+    return Toggl.getWorkspaces();
+  } catch (error) {
+    const user = Session.getTemporaryActiveUserKey();
+    const message = 'Togglのワークスペース取得でエラーが発生しました。';
+    console.error({ user, message, error });
+    throw new Error(`${message} \n[${user}]`);
+  }
 }
 
 /**
