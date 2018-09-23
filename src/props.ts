@@ -2,6 +2,7 @@
  * UserProperty
  */
 const userProperties = PropertiesService.getUserProperties();
+
 const Props = {
   get(key: string): string {
     return userProperties.getProperty(key);
@@ -13,9 +14,7 @@ const Props = {
 
   isValid(): boolean {
     const props = this.getAll();
-    const isValid = Object.keys(props).every((key: string) =>
-      (!!props[key] && props[key].length > 0));
-    return isValid;
+    return Object.keys(props).every((key: string) => (!!props[key] && props[key].length > 0));
   },
 
   set(key: string, value: string): void {
