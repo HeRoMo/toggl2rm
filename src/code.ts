@@ -1,13 +1,13 @@
-import './appsscript.json';
-import Toggl from './toggl';
+import Props from './props';
 import Redmine from './redmine';
+import Toggl from './toggl';
 
 const APP_NAME = 'Toggl2Rm';
 /**
  * スプレッドシートのオープンイベント処理
  * メニューを追加する。
  */
-function onOpen() {
+function onOpen(): void {
   const ui = SpreadsheetApp.getUi();
   const addon = ui.createAddonMenu();
   addon.addItem('サイドバーを表示', 'showSidebar');
@@ -19,14 +19,14 @@ function onOpen() {
  * アドオンインストールイベントの処理
  * メニューを追加する。
  */
-function onInstall() {
+function onInstall(): void {
   onOpen();
 }
 
 /**
  * サイドバーの表示
  */
-function showSidebar() {
+function showSidebar(): void {
   // サイドバー表示
   const sidebarTmpl = HtmlService.createTemplateFromFile('sidebar');
   const sidebar = sidebarTmpl.evaluate();
@@ -38,7 +38,7 @@ function showSidebar() {
 /**
  * 設定ダイアログの表示
  */
-function showSettingDialog() {
+function showSettingDialog(): void {
   const ui = SpreadsheetApp.getUi();
   const template = HtmlService.createTemplateFromFile('setting_dialog');
   const dialog = template.evaluate();
@@ -48,9 +48,9 @@ function showSettingDialog() {
 
 /**
  * Togglのワークスペースを取得する
- * @return {Array[Object]} ワークスペースの{id, name}のリスト
+ * @return ワークスペースの{id, name}のリスト
  */
-function getWorkspaces() {
+function getWorkspaces(): Array<{id: number, name: string}> {
   try {
     return Toggl.getWorkspaces();
   } catch (error) {
@@ -63,14 +63,14 @@ function getWorkspaces() {
 
 /**
  * データをスプレッドシートに書き込む
- * @param  {Array[][]} parsedReport [taskId,
- *                                   ticketNo,
- *                                   startDate,
- *                                   duration(H),
- *                                   memo,
- *                                   taskDescription]の配列
+ * @param parsedReport [taskId,
+ *                      ticketNo,
+ *                      startDate,
+ *                      duration(H),
+ *                      memo,
+ *                      taskDescription]の配列
  */
-function writeToSheet(report) {
+function writeToSheet(report: object[][]): void {
   const sheet = SpreadsheetApp.getActiveSheet();
   sheet.getDataRange().clear();
   const rowCount = report.length;
@@ -81,16 +81,16 @@ function writeToSheet(report) {
 
 /**
  * Togglからレポートを取得し、スプレッドシートに書き込む
- * @param  {Integer} workplaceId ワークプレイスID
- * @param  {Integer} year        レポートを取得する年
- * @param  {Integer} month       レポートを取得する月
- * @param  {boolean} tikectOnly  trueの場合、チケットIDありのデータのみ書き込む
+ * @param workplaceId ワークプレイスID
+ * @param year        レポートを取得する年
+ * @param month       レポートを取得する月
+ * @param tikectOnly  trueの場合、チケットIDありのデータのみ書き込む
  */
-function fillSheetWithReport(workplaceId, year, month, tikectOnly = true) {
+function fillSheetWithReport(workplaceId: number, year: number, month: number, tikectOnly: boolean = true) {
   try {
     let report = Toggl.getAllReport(workplaceId, year, month);
     const totalCount = Math.max(report.length - 1, 0); // ヘッダ行を引いておく
-    if (tikectOnly) report = report.filter(row => (row[1] !== null));
+    if (tikectOnly) report = report.filter((row) => (row[1] !== null));
     const count = Math.max(report.length - 1, 0); // ヘッダ行を引いておく
     console.info({ message: `Togglから ${count} 件取得しました`, totalCount, count });
     SpreadsheetApp.getActiveSpreadsheet().toast(`Success ${count}件取得しました`, 'Toggl');
@@ -106,7 +106,7 @@ function fillSheetWithReport(workplaceId, year, month, tikectOnly = true) {
 /**
  * スプレッドシートの時間記録をRedmineに書き出す
  */
-function addTimeEntryFromSheet() {
+function addTimeEntryFromSheet(): void {
   const sheet = SpreadsheetApp.getActiveSheet();
   const activeRange = sheet.getDataRange();
   const data = activeRange.getValues();
@@ -114,11 +114,11 @@ function addTimeEntryFromSheet() {
   let count = 0;
   try {
     data.forEach((d) => {
-      const ticketId = Utilities.formatString('%d', d[1]);
-      const date = Utilities.formatDate(new Date(d[2]), 'JST', 'yyyy-MM-dd');
-      const hours = d[3];
-      const comment = d[4];
-      if (ticketId !== 'NaN') {
+      const ticketId = Number(Utilities.formatString('%d', d[1]));
+      const date = Utilities.formatDate(new Date(String(d[2])), 'JST', 'yyyy-MM-dd');
+      const hours = Number(d[3]);
+      const comment = String(d[4]);
+      if (ticketId > 0) {
         const success = Redmine.addTimeEntry(ticketId, date, hours, comment);
         if (success) count += 1;
       }
@@ -127,6 +127,7 @@ function addTimeEntryFromSheet() {
     const message = `Redmineへの登録でエラーが発生しました。(${count}件 登録済)`;
     console.error({
       message,
+      // tslint:disable-next-line:object-literal-sort-keys
       error,
       dataCount,
       count,
@@ -140,37 +141,25 @@ function addTimeEntryFromSheet() {
 
 /**
  * エラーメッセージを表示する
- * @param  {String} message エラーメッセージ
+ * @param message エラーメッセージ
  */
-function showError(message) {
+function showError(message: string): void {
   const ui = SpreadsheetApp.getUi();
   ui.alert('ERROR', message, ui.ButtonSet.OK);
 }
 
 /**
  * プロパティを保存する
- * @param {Object} props プロパティのhash
+ * @param props プロパティのhash
  */
-function setProps(props) {
+function setProps(props: object): void {
   Props.setProps(props);
 }
 
 /**
  * 設定が有効かどうかを判定する
- * @return {Boolean} すべての設定に値がある場合 true。それ以外はfalse
+ * @return すべての設定に値がある場合 true。それ以外はfalse
  */
-function hasInvalidProps() {
+function hasInvalidProps(): boolean {
   return !Props.isValid();
 }
-
-global.onOpen = onOpen;
-global.onInstall = onInstall;
-global.showSidebar = showSidebar;
-global.showSettingDialog = showSettingDialog;
-global.getWorkspaces = getWorkspaces;
-global.fillSheetWithReport = fillSheetWithReport;
-global.addTimeEntryFromSheet = addTimeEntryFromSheet;
-global.showError = showError;
-
-global.setProps = setProps;
-global.hasInvalidProps = hasInvalidProps;
