@@ -16,7 +16,7 @@ Toggl2Rm has the following features,
    $ cd toggl2rm
    ```
 2. Install packages
-   ```
+   ```bash
    $ npm install
    ```
 3. Login to Google.
@@ -31,27 +31,24 @@ Toggl2Rm has the following features,
    $ npm run create_gas
    ```
    The script file named 'taggl2rm' is created in your Google Apps Script.
-6. Build project
-   ```bash
-   $ npm run build
-   ```
-7. Upload files to Google Apps Script.
+6. Upload files to Google Apps Script.
    ```bash
    $ npm run deploy
    ```
-8. Run as test.<br>
-    see [Test an Add\-on](https://developers.google.com/apps-script/add-ons/test)
-    * Non-published add-on can be executed as only test.
+7. Run as test.<br>
+   see [Test an Add\-on](https://developers.google.com/apps-script/add-ons/test)
+   - Non-published add-on can be executed as only test.
 
 ## How to use
+
 ### Get detail report from Toggl
 
 1. Setting Toggl and Redmine properties<br>
    Open Setting Dialog by Menu `Add-on > Toggl2Rm > 設定`<br>
    Set the following properties,
-   * Toggl API TOKEN
-   * Redmine Server
-   * Redmine API KEY
+   - Toggl API TOKEN
+   - Redmine Server
+   - Redmine API KEY
 2. Open sidebar<br>
    You can open sidebar by menu `Add-on > Toggl2Rm > サイドバーを開く`
 3. Select Workspace and 年月, which you want to get report.
@@ -62,9 +59,10 @@ Toggl2Rm has the following features,
 ### Add time entries to Redmine
 
 1. Push `時間を登録` Button<br>
-   All rows in active sheet  send to your Redmine server.
+   All rows in active sheet send to your Redmine server.
 
    **Notice: only data that has ticketId are sent to Redmine.**
 
 ## License
+
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

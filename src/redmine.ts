@@ -1,13 +1,18 @@
+import Props from './props';
+
 const RM_SERVER = 'RM_SERVER';
 const RM_API_KEY = 'RM_API_KEY';
 
 /**
  * Redmine APIにリクエストを投げる
- * @param  {String} path    API エンドポイントのパス（'/' 始まり）
- * @param  {Object} options リクエストのオプション
- * @return {Response}         [description]
+ * @param path    API エンドポイントのパス（'/' 始まり）
+ * @param options リクエストのオプション
+ * @return APIのレスポンス
  */
-function callRedmineApi(path, options) {
+function callRedmineApi(
+  path: string,
+  options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions,
+): GoogleAppsScript.URL_Fetch.HTTPResponse {
   const rmServer = Props.get(RM_SERVER);
   const apiKey = Props.get(RM_API_KEY);
   const opts = options;
@@ -25,19 +30,21 @@ function callRedmineApi(path, options) {
 const Redmine = {
   /**
    * Redmineに時間を記録する
-   * @param {Integer} ticketNo チケットNo
-   * @param {String}  date     日付
-   * @param {Integer} hours    作業時間
-   * @param {String} comments  作業メモ
+   * @param ticketNo チケットNo
+   * @param date     日付
+   * @param hours    作業時間
+   * @param comments 作業メモ
+   * @returns 登録の成否。成功の場合 true。それ以外は false
    */
-  addTimeEntry(ticketNo, date, hours, comments) {
+  addTimeEntry(ticketNo: number, date: string, hours: number, comments: string): boolean {
     const timeEntry = {
       issue_id: ticketNo,
       spent_on: date,
+      // tslint:disable-next-line:object-literal-sort-keys
       hours,
       comments,
     };
-    const options = {
+    const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
       method: 'post',
       payload: { time_entry: timeEntry },
     };
