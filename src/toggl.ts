@@ -36,13 +36,8 @@ function fetchReport(
   since: string,
   until: string,
   page: number = 1): { reportJson: object, hasNext: boolean } {
-  const url = Utilities.formatString(
-    'https://toggl.com/reports/api/v2/details?workspace_id=%s&since=%s&until=%s&page=%s&user_agent=toggl2rm',
-    workplaceId,
-    since,
-    until,
-    page,
-  );
+  // tslint:disable-next-line:max-line-length
+  const url = `https://toggl.com/reports/api/v2/details?workspace_id=${workplaceId}&since=${since}&until=${until}&page=${page}&user_agent=toggl2rm`;
   const response = callTogglApi(url);
   const content = JSON.parse(response.getContentText());
   const reportJson = content.data;
