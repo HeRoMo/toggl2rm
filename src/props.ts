@@ -3,28 +3,28 @@
  */
 const userProperties = PropertiesService.getUserProperties();
 const Props = {
-  get(key) {
+  get(key: string): string {
     return userProperties.getProperty(key);
   },
 
-  getAll() {
+  getAll(): object {
     return userProperties.getProperties();
   },
 
-  isValid() {
+  isValid(): boolean {
     const props = this.getAll();
-    const isValid = Object.keys(props).every(key =>
+    const isValid = Object.keys(props).every((key: string) =>
       (!!props[key] && props[key].length > 0));
     return isValid;
   },
 
-  set(key, value) {
+  set(key: string, value: string): void {
     userProperties.setProperty(key, value);
   },
 
-  setProps(props) {
+  setProps(props: object): void {
     userProperties.setProperties(props);
   },
 };
 
-global.Props = Props;
+export default Props;
