@@ -2,6 +2,9 @@ import Props from './props';
 
 const RM_SERVER = 'RM_SERVER';
 const RM_API_KEY = 'RM_API_KEY';
+const RM_BASIC_AUTH = 'RM_BASIC_AUTH';
+const RM_BASIC_USERNAME = 'RM_BASIC_USERNAME';
+const RM_BASIC_PASSSWORD = 'RM_BASIC_PASSSWORD';
 
 /**
  * Redmine APIにリクエストを投げる
@@ -18,6 +21,14 @@ function callRedmineApi(
   const opts = options;
   opts.headers = options.headers || {};
   opts.headers['X-Redmine-API-Key'] = apiKey;
+  if (Props.get(RM_BASIC_AUTH) === 'true') {
+    const username = Props.get(RM_BASIC_USERNAME);
+    const password = Props.get(RM_BASIC_PASSSWORD);
+    if (username && password) {
+      const token = Utilities.base64Encode(`${username}:${password}`);
+      opts.headers['Authorization'] = `Basic ${token}`;
+    }
+  }
   if (options.payload) {
     opts.headers['Content-Type'] = 'application/json';
     opts.payload = JSON.stringify(options.payload);
