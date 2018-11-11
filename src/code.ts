@@ -42,7 +42,7 @@ function showSettingDialog(): void {
   const ui = SpreadsheetApp.getUi();
   const template = HtmlService.createTemplateFromFile('setting_dialog');
   const dialog = template.evaluate();
-  dialog.setWidth(400).setHeight(300);
+  dialog.setWidth(400).setHeight(450);
   ui.showModalDialog(dialog, '設定');
 }
 

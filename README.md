@@ -49,6 +49,9 @@ Toggl2Rm has the following features,
    - Toggl API TOKEN
    - Redmine Server
    - Redmine API KEY
+   - BASIC Authorization (Optional)
+     - User Name
+     - Password
 2. Open sidebar<br>
    You can open sidebar by menu `Add-on > Toggl2Rm > サイドバーを開く`
 3. Select Workspace and 年月, which you want to get report.
