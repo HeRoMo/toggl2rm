@@ -9,40 +9,77 @@
     input:invalid {
       background-color: #ffbbbb;
     }
+    input:disabled {
+      color: gray;
+      background-color: lightgray;
+    }
   </style>
 </head>
 <body>
   <fieldset>
     <legend>Toggl</legend>
     <div class="block form-group">
-      <label for="toggle-api-token">API token (<a href="https://toggl.com/app/profile" target="_blank">get API token</a>):</label>
+      <label for="TOGGL_API_TOKEN">API token (<a href="https://toggl.com/app/profile" target="_blank">get API token</a>):</label>
       <input type="text" id="TOGGL_API_TOKEN" class="setting" pattern='^[0-9a-z]+$' value="<?=Props.get('TOGGL_API_TOKEN')?>" >
     </div>
   </fieldset>
   <fieldset>
     <legend>Redmine</legend>
     <div class="block form-group">
-      <label for="rm-server">Server: </label>
+      <label for="RM_SERVER">Server: </label>
       <input type="text" id="RM_SERVER" class="setting" pattern="^https?://.+[^/]$" value="<?=Props.get('RM_SERVER')?>" placeholder="https://your-rm-host">
     </div>
     <div class="block form-group">
-      <label for="rm-api-key">API KEY (<a href="http://www.redmine.org/projects/redmine/wiki/Rest_api#Authentication"  target="_blank">how to get API KEY</a>):</label>
+      <label for="RM_API_KEY">API KEY (<a href="http://www.redmine.org/projects/redmine/wiki/Rest_api#Authentication"  target="_blank">how to get API KEY</a>):</label>
       <input type="text" id="RM_API_KEY" class="setting" pattern='^[0-9a-z]+$' value="<?=Props.get('RM_API_KEY')?>">
     </div>
-
+    <fieldset>
+      <legend>
+        <input type="checkbox" id="RM_BASIC_AUTH" class="setting" <?=Props.get('RM_BASIC_AUTH') === 'true' ? 'checked' : ''?>>
+        <label for="RM_BASIC_AUTH">BASIC認証</label>
+      </legend>
+      <div class="block form-group">
+        <label for="RM_BASIC_USERNAME">User Name:</label>
+        <input type="text" id="RM_BASIC_USERNAME" class="setting" pattern='^[\S]+$' value="<?=Props.get('RM_BASIC_USERNAME')?>">
+      </div>
+      <div class="block form-group">
+        <label for="RM_BASIC_PASSSWORD">Password:</label>
+        <input type="password" id="RM_BASIC_PASSSWORD" class="setting" pattern='^[\S]+$' value="<?=Props.get('RM_BASIC_PASSSWORD')?>">
+      </div>
+    </fieldset>
   </fieldset>
   <div class="block form-group bottom-right">
     <button id="save" class="blue">保存</button>
     <button id="cancel" onclick="google.script.host.close()">キャンセル</button>
   <script type="text/javascript">
     (function(){
+      var rmBasicAuth = checked = document.querySelector('#RM_BASIC_AUTH');
+      function setStateBasicAuth() {
+        var name = document.querySelector('#RM_BASIC_USERNAME');
+        var passwd = document.querySelector('#RM_BASIC_PASSSWORD');
+        if (rmBasicAuth.checked) {
+          name.disabled = false;
+          passwd.disabled = false;
+        } else {
+          name.disabled = true;
+          passwd.disabled = true;
+        }
+      }
       function saveSettings(event){
         event.currentTarget.disabled=true;
         var props = {}
         var settings = document.querySelectorAll("input.setting")
         settings.forEach(function(setting){
-          props[setting.id] = setting.value;
+          if (setting.type === 'checkbox') {
+            props[setting.id] = setting.checked;
+          } else {
+            props[setting.id] = setting.value;
+          }
         })
+        if(!props.RM_BASIC_AUTH) {
+          props.RM_BASIC_USERNAME = '';
+          props.RM_BASIC_PASSSWORD = '';
+        }
         function onSuccess(){
           google.script.host.close();
         }
@@ -55,6 +92,8 @@
           .setProps(props);
       }
       document.querySelector("#save").addEventListener('click', saveSettings);
+      rmBasicAuth.addEventListener('change', setStateBasicAuth)
+      setStateBasicAuth();
     })();
   </script>
 </body>

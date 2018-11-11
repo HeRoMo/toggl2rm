@@ -5,7 +5,8 @@
   "scripts": {
     "login": "./node_modules/.bin/clasp login",
     "init_gas": "./node_modules/.bin/clasp create toggl2rm --rootDir ./src",
-    "deploy": "./node_modules/.bin/clasp push"
+    "push": "./node_modules/.bin/clasp push",
+    "push:watch": "./node_modules/.bin/clasp push --watch"
   },
   "keywords": [
     "Toggl",
