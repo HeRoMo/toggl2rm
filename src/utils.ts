@@ -1,4 +1,4 @@
-const Utils = {
+const Utils = { // eslint-disable-line @typescript-eslint/naming-convention
   /**
    * 年月の配列を取得する。実行時の月を含む6ヶ月分
    * @return YYYY-MMの配列（降順）

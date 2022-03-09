@@ -3,10 +3,11 @@
   "version": "2.1.0",
   "description": "A Google Sheets Add-on, which can fetch Toggl report and create time entry of Redmine.",
   "scripts": {
-    "login": "./node_modules/.bin/clasp login",
+    "eslint": "./node_modules/.bin/eslint . --ext .ts",
     "init_gas": "./node_modules/.bin/clasp create toggl2rm --rootDir ./src",
-    "push": "./node_modules/.bin/clasp push",
-    "push:watch": "./node_modules/.bin/clasp push --watch"
+    "clasp:login": "./node_modules/.bin/clasp login",
+    "clasp:push": "./node_modules/.bin/clasp push",
+    "clasp:push:watch": "./node_modules/.bin/clasp push --watch"
   },
   "keywords": [
     "Toggl",
@@ -19,6 +20,11 @@
   "devDependencies": {
     "@google/clasp": "^2.4.1",
     "@types/google-apps-script": "^1.0.45",
-    "tslint": "^5.11.0"
+    "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "@typescript-eslint/parser": "^5.14.0",
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-googleappsscript": "^1.0.4",
+    "eslint-plugin-import": "^2.25.4"
   }
 }

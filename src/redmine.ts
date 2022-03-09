@@ -26,7 +26,7 @@ function callRedmineApi(
     const password = Props.get(RM_BASIC_PASSSWORD);
     if (username && password) {
       const token = Utilities.base64Encode(`${username}:${password}`);
-      opts.headers['Authorization'] = `Basic ${token}`;
+      opts.headers.Authorization = `Basic ${token}`;
     }
   }
   if (options.payload) {
@@ -38,7 +38,7 @@ function callRedmineApi(
   return response;
 }
 
-const Redmine = {
+const Redmine = { // eslint-disable-line @typescript-eslint/naming-convention
   /**
    * Redmineに時間を記録する
    * @param ticketNo チケットNo
@@ -49,15 +49,15 @@ const Redmine = {
    */
   addTimeEntry(ticketNo: number, date: string, hours: number, comments: string): boolean {
     const timeEntry = {
-      issue_id: ticketNo,
-      spent_on: date,
+      issue_id: ticketNo, // eslint-disable-line @typescript-eslint/naming-convention
+      spent_on: date, // eslint-disable-line @typescript-eslint/naming-convention
       // tslint:disable-next-line:object-literal-sort-keys
       hours,
       comments,
     };
     const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
       method: 'post',
-      payload: { time_entry: timeEntry },
+      payload: { time_entry: timeEntry }, // eslint-disable-line @typescript-eslint/naming-convention, max-len
     };
     const response = callRedmineApi('/time_entries.xml', options);
     const code = response.getResponseCode();
