@@ -37,7 +37,7 @@ function fetchReport(
   until: string,
   page: number = 1): { reportJson: object, hasNext: boolean } {
   // tslint:disable-next-line:max-line-length
-  const url = `https://toggl.com/reports/api/v2/details?workspace_id=${workplaceId}&since=${since}&until=${until}&page=${page}&user_agent=toggl2rm`;
+  const url = `https://api.track.toggl.com/reports/api/v2/details?workspace_id=${workplaceId}&since=${since}&until=${until}&page=${page}&user_agent=toggl2rm`;
   const response = callTogglApi(url);
   const content = JSON.parse(response.getContentText());
   const reportJson = content.data;
@@ -79,7 +79,7 @@ const Toggl = {
    * @return ワークスペースのリスト。 { id, name } の配列
    */
   getWorkspaces(): Array<{ id: number, name: string }> {
-    const url = 'https://www.toggl.com/api/v8/workspaces';
+    const url = 'https://api.track.toggl.com/api/v8/workspaces';
     const response = callTogglApi(url);
     const content = JSON.parse(response.getContentText());
     const workspaces = content.map((ws) => ({ id: ws.id, name: ws.name }));

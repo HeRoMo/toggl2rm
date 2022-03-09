@@ -17,23 +17,23 @@ Toggl2Rm has the following features,
    ```
 2. Install packages
    ```bash
-   $ npm install
+   $ yarn install
    ```
 3. Login to Google.
    ```bash
-   $ npm run login
+   $ yarn login
    ```
 4. Turn ON your Google Apps Script API<br>
    Access to https://script.google.com/home/usersettings and turn on Google Apps Script API.
    If already ON, skip this step.
 5. Create Google Apps Script for toggl2rm
    ```bash
-   $ npm run create_gas
+   $ yarn create_gas
    ```
    The script file named 'taggl2rm' is created in your Google Apps Script.
 6. Upload files to Google Apps Script.
    ```bash
-   $ npm run deploy
+   $ yarn deploy
    ```
 7. Run as test.<br>
    see [Test an Add\-on](https://developers.google.com/apps-script/add-ons/test)
