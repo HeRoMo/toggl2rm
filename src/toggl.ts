@@ -18,7 +18,7 @@ interface IToggleReportData {
 function callTogglApi(url: string): GoogleAppsScript.URL_Fetch.HTTPResponse {
   const togglKey = Props.get(TOGGL_API_TOKEN);
   const authToken = Utilities.base64Encode(`${togglKey}:api_token`);
-  const headers = { Authorization: `Basic ${authToken}` };
+  const headers = { Authorization: `Basic ${authToken}` }; // eslint-disable-line @typescript-eslint/naming-convention
   const response = UrlFetchApp.fetch(url, { headers });
   return response;
 }
@@ -35,7 +35,8 @@ function fetchReport(
   workplaceId: number,
   since: string,
   until: string,
-  page: number = 1): { reportJson: object, hasNext: boolean } {
+  page: number = 1,
+): { reportJson: object, hasNext: boolean } {
   // tslint:disable-next-line:max-line-length
   const url = `https://api.track.toggl.com/reports/api/v2/details?workspace_id=${workplaceId}&since=${since}&until=${until}&page=${page}&user_agent=toggl2rm`;
   const response = callTogglApi(url);
@@ -73,7 +74,7 @@ function parseReportData(reportJson: IToggleReportData[]): any[][] {
   return parsedReport;
 }
 
-const Toggl = {
+const Toggl = { // eslint-disable-line @typescript-eslint/naming-convention
   /**
    * ワークスペースを取得する
    * @return ワークスペースのリスト。 { id, name } の配列
@@ -114,7 +115,7 @@ const Toggl = {
     let report = [];
     while (hasNext) {
       const result = fetchReport(workplaceId, since, until, page);
-      const reportJson = result.reportJson;
+      const { reportJson } = result;
       hasNext = result.hasNext;
       Utilities.sleep(1500); // APIのrate limitを避けるため
       report = report.concat(reportJson);

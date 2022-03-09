@@ -3,7 +3,7 @@
  */
 const userProperties = PropertiesService.getUserProperties();
 
-const Props = {
+const Props = { // eslint-disable-line @typescript-eslint/naming-convention
   get(key: string): string {
     return userProperties.getProperty(key);
   },
@@ -21,7 +21,7 @@ const Props = {
     userProperties.setProperty(key, value);
   },
 
-  setProps(props: object): void {
+  setProps(props: { [key: string]: string; }): void {
     userProperties.setProperties(props);
   },
 };

@@ -1,5 +1,5 @@
 import Props from './props';
-import Redmine from './redmine';
+import REDMINE from './redmine';
 import Toggl from './toggl';
 
 const APP_NAME = 'Toggl2Rm';
@@ -7,6 +7,7 @@ const APP_NAME = 'Toggl2Rm';
  * スプレッドシートのオープンイベント処理
  * メニューを追加する。
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function onOpen(): void {
   const ui = SpreadsheetApp.getUi();
   const addon = ui.createAddonMenu();
@@ -19,6 +20,7 @@ function onOpen(): void {
  * アドオンインストールイベントの処理
  * メニューを追加する。
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function onInstall(): void {
   onOpen();
 }
@@ -26,6 +28,7 @@ function onInstall(): void {
 /**
  * サイドバーの表示
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function showSidebar(): void {
   // サイドバー表示
   const sidebarTmpl = HtmlService.createTemplateFromFile('sidebar');
@@ -38,6 +41,7 @@ function showSidebar(): void {
 /**
  * 設定ダイアログの表示
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function showSettingDialog(): void {
   const ui = SpreadsheetApp.getUi();
   const template = HtmlService.createTemplateFromFile('setting_dialog');
@@ -50,6 +54,7 @@ function showSettingDialog(): void {
  * Togglのワークスペースを取得する
  * @return ワークスペースの{id, name}のリスト
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getWorkspaces(): Array<{id: number, name: string}> {
   try {
     return Toggl.getWorkspaces();
@@ -86,7 +91,13 @@ function writeToSheet(report: object[][]): void {
  * @param month       レポートを取得する月
  * @param tikectOnly  trueの場合、チケットIDありのデータのみ書き込む
  */
-function fillSheetWithReport(workplaceId: number, year: number, month: number, tikectOnly: boolean = true) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function fillSheetWithReport(
+  workplaceId: number,
+  year: number,
+  month: number,
+  tikectOnly: boolean = true,
+) {
   try {
     let report = Toggl.getAllReport(workplaceId, year, month);
     const totalCount = Math.max(report.length - 1, 0); // ヘッダ行を引いておく
@@ -106,6 +117,7 @@ function fillSheetWithReport(workplaceId: number, year: number, month: number, t
 /**
  * スプレッドシートの時間記録をRedmineに書き出す
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function addTimeEntryFromSheet(): void {
   const sheet = SpreadsheetApp.getActiveSheet();
   const activeRange = sheet.getDataRange();
@@ -119,7 +131,7 @@ function addTimeEntryFromSheet(): void {
       const hours = Number(d[3]);
       const comment = String(d[4]);
       if (ticketId > 0) {
-        const success = Redmine.addTimeEntry(ticketId, date, hours, comment);
+        const success = REDMINE.addTimeEntry(ticketId, date, hours, comment);
         if (success) count += 1;
       }
     });
@@ -143,6 +155,7 @@ function addTimeEntryFromSheet(): void {
  * エラーメッセージを表示する
  * @param message エラーメッセージ
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function showError(message: string): void {
   const ui = SpreadsheetApp.getUi();
   ui.alert('ERROR', message, ui.ButtonSet.OK);
@@ -152,7 +165,8 @@ function showError(message: string): void {
  * プロパティを保存する
  * @param props プロパティのhash
  */
-function setProps(props: object): void {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function setProps(props: { [key: string]: string }): void {
   Props.setProps(props);
 }
 
@@ -160,6 +174,7 @@ function setProps(props: object): void {
  * 設定が有効かどうかを判定する
  * @return すべての設定に値がある場合 true。それ以外はfalse
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function hasInvalidProps(): boolean {
   return !Props.isValid();
 }
