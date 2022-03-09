@@ -17,8 +17,8 @@
   "repository": "https://github.com/HeRoMo/toggl2rm.git",
   "license": "CC-BY-NC-4.0",
   "devDependencies": {
-    "@google/clasp": "^1.6.3",
-    "@types/google-apps-script": "^0.0.31",
+    "@google/clasp": "^2.4.1",
+    "@types/google-apps-script": "^1.0.45",
     "tslint": "^5.11.0"
   }
 }
